@@ -57,3 +57,131 @@ Can we do the same with derivatives?
 
 /*********************************************************************************************/
 /*************************************** Chapter 2 *******************************************/
+Derivatives
+
+At Maturity: S is spot price, E is exercise price
+	call is worth max(S - E, 0). 
+	put is worth  max(E - S, 0).
+
+Higher strike benefits puts, Lower strike benefits calls. 
+
+-----Terms:-----
+Premium - amount paid for the contract intially.
+Underlying Asset - financial instrument upon which the option is based upon
+
+Strike (Exercise) price - Amount for which the underlying asset can be bought(call) or sold(put).
+Expiry - Date on which option can be exercised or cease to exist. (denoted by T)
+
+Intrinsic Value - Payoff recieved if the underlying asset is at its current level when option expires.
+Time value - Any value the option has above its intrinsic value. (derived from the uncertainty)
+
+In the money - option has positive intrinsic value. Call price below or Put price above.
+At the money - option with close to net-zero intrinsic value. 
+Out of the money - no intrinsic value, only time value. Call price above or Put price below.
+
+Long position - positive amount of a quantity owned. your exposure is +
+Short position - negative amount of a quantity owned. Many assets can be sold short under time constraints 
+
+---------------
+
+Payoff diagrams
+
+call:	max(S - E, 0)	 __/
+put:	max(E - S, 0)	\__
+
+value before expiry depends on two things :
+1) what is the asset's price today? 
+2) how long is there before expiry?
+
+#2 is a little more subtle. more time to decide is good,
+but what about the time value of money? what about the risk free rate?
+
+In general,
+	
+	V(S, T) = max(S - E, 0)
+
+Anymore parameters we should consider? What about volatility?
+So many questions; so little answers. (lol)
+
+side note: out-of-the-money options have high gearing, high leverage. 
+
+buyer:
+super high payoff for a small investment, 
+but good chance the option will expire worthless and you lose all your money.
+
+writer:
+small probable profit, but you have to risk a massive loss. 
+makes you think twice about writing the option
+Hedge your risk by buying related contracts 
+
+Key concept:
+Options have gearing. If you have a strong view of the direction of the market, 
+you can exploit derivatives to give you a better return than buying and selling the underlying asset.
+
+------Put-Call Parity----------
+Say you buy a call and write a put. payoff is: 
+	max(S(T) - E, 0) - max(E - S(T), 0) = S(T) - E
+	Plot is a line graph with slope 1, y-intercept = -E
+
+Well, is there another way to get payoff S(T) - E?
+buy the asset and borrow some money. 
+asset pays off S at time T, and you owe E at time T
+
+Thus,
+	C - P = S - E * e^-r(T - t)
+
+A long call and short put gives exactly the same payoff as
+a long asset and short cash position.
+--------------------------------
+
+Bull and Bear Spreads
+
+First example of an option strategy.
+
+Buy a call with 100 strike and write a call with 120 strike	__/--
+payoff:
+	0 		for S <= 100 
+	S - 100		for 100 < S <= 120
+	20		for 120 < S
+
+scaled to max 1 payoff:
+	(1/(E2 - E1)) * (max(S - E1, 0) - max(S - E2, 0))
+
+bear spread?
+write a put with strike 100 and buy a put with strike 100	--\__
+
+Straddle and Strangle is really cool
+good for volatility trading
+
+Straddle : \/
+buy a put and call with the same strike price
+payoff with a huge breakout or bounce back
+
+Strangle : \_/
+same as straddle except biased in one direction
+cheaper usually. gearing for out-of-the-money strangle generally higher than that of straddle
+
+both are rarely held until expiry. Again, use to trade volatility
+
+risk reversal. long call short put with a gap  /-/
+
+butterfly and condor:
+butterfly has purchase and sale of options with three w. diff strikes __/\__
+condor is the same with 4 __/-\__ trapazoid
+
+butterfly ex. long a 90 call, short 2 calls at 100, and buy a call at 110
+condor ex. long an 80 call, short a 90 call, short a 110 call, buy a 120 call
+
+Conjecture: with options, cheap is good.
+
+Convertible bond is a bond you can buy from Corporate America.
+acts like a bond that pays coupons, but you can convert it to the underlying stock before expiry.
+
+
+Summary: we know some of the market jargon and understand why people buy / write derivatives. 
+We have seen more No-Arbitrage with put-call parity, and we know the price of options are affected by
+underlying asset and time to expiry. Just how much risk is really involved? Stay tuned to find out. 
+We still don't even know what they are worth.
+
+/**********************************************************************************************/
+/********************************* Chapter 3 **************************************************/
