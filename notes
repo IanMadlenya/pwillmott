@@ -1,0 +1,59 @@
+/************************************** Chapter 1 ********************************************/
+
+continuously compounded interest at a rate r culminates to e^rt
+
+	V(t) = V(0)*e^rt
+
+	pv = V * e^-rt
+
+Interest rate concept:
+Theoretically, tying your money up for a longer period of time
+allows you to demand a higher rate.
+Often, if you want immediate access to your money, you will need to take
+a floating interest rate (fluctuates from time to time).
+
+IMPORTANT: The less creditworthy the issuer, the higher the rate of interest they pay
+
+Futures and Forwards
+
+Forward: agreement to buy the asset at some time in future at contractual delivery price
+	v(0) = 0
+	v(t) = delivery price - underlying asset
+
+Future: standardized contract traded on an exchange
+	profit / loss calculated everyday
+	money changes hands frequently to cover the loss
+
+NEITHER depend on market expectations at maturity
+
+2 uses: speculating and hedging
+
+Let's say you live in China. 
+Your friend will pay you in U.S. dollars 6 months from now.
+You know the U.S. dollar will go down.
+Buy a USD future. Protect yourself.
+
+No-Arbitrage
+ 
+	F = s(t) * e^r(T-t)	(s is the spot price)
+
+Things to keep in mind with futures:
+
+1) holder needs to store commodities (oil, gold, grain, etc.)
+   the buyer needs to compensate the holder, so actual price is
+   a little higher than the no-arbitrage price
+
+2) holder can invest FX currencies for a return.
+   actual price is lower than no-arbitrage price
+
+3) sometimes the holder of an index fund benefits from dividends
+   collecting dividends will drive down actual price
+
+
+Summary:
+
+We valued futures and forwards with the no-arbitrage principle.
+Can we do the same with derivatives? 
+
+/*********************************************************************************************/
+/*************************************** Chapter 2 *******************************************/
