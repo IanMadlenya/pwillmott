@@ -183,6 +183,39 @@ We have seen more No-Arbitrage with put-call parity, and we know the price of op
 underlying asset and time to expiry. Just how much risk is really involved? Stay tuned to find out. 
 We still don't even know what they are worth.
 
+Example Answers
+1)	a) call at E 	  max(E - S, 0) + (S - E) = max(S - E, 0). 	__/
+	b) straddle at E  max(S - E, E - S) 	\/
+	c) bull spread from e1 to e2	max(S-E1, 0) - max(S-E2, 0) 	_/- 
+	d) max(E2 - S, 0) + max(S - E1, 0)
+	   case E1 > E2:  strangle from E2 to E1. \_/
+	   case E1 = E2:  straddle at E1 = E2 \/
+	   case E1 < E2:  strangle from E1 to E2 verticle shifted up  \_/ ^
+	e) bear spread +  double short put	max(S - E1, 0) + max(S - E2, 0) - 2*max(E - S, 0) /-/ + -\ + -\
+		makes a butterfly at E: _/\_
+
+2) profit diagram factors in the original option premium with a vertical shift downward of the payoff diagram.
+   (E - S) + 2*max(S - E, 0)  payoff gives a straddle at E. shift down twice the premium of the option for the profit diagram.
+
+3) C - P = S - E * e^dt    (t = 0.25 and d = 0.05)
+   3 - 1.5 <=> 60 - 58 * e^.0125 
+   1.5 < 1.27   Arbitrage exists
+   Long the call and cash position, short the stock and put.
+   
+4) butterfly spread is long the max and min calls, short the middle call twice
+   long the 80 and 100, short the 90 twice
+   p = 11.91 + 1.03 - 2 * 4.52 = $3.90
+
+5)  what I know: C = P + S - E*v, so dC/dE = dP/de - v
+    		 C1 - 2C2 + C3 = P1 - 2P2 + P3 + 3S - v(E1 - 2E2 + E3)
+    what I looked up:
+	for calls, V(E) - V(E+dE) must be > 0 bc of time optionality of call
+	as dE -> 0, we get dV/dE < 0
+	
+	for the butterfly spread,
+	V(E - dE) - 2V(E) + V(E + dE) must be > 0 bc butterfly spread is pos within that range (E-dE to E+dE)
+	So, d^2V/dE^2 > 0 since dV/dE < 0.
+
 /**********************************************************************************************/
 /********************************* Chapter 3 **************************************************/
 Binomial Model
