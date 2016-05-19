@@ -1,0 +1,6 @@
+#!/bin/bash
+gcc -o bn binomial.c -lm
+bn
+rm bn
+
+

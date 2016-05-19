@@ -220,4 +220,299 @@ Example Answers
 /********************************* Chapter 3 **************************************************/
 Binomial Model
 
+think of it as a teaching aid to explain delta-hedging, risk elimination, and risk-neutral valuation.
+rely on the binomial model for the intution it gives, not for numerical calculations.
+poor model of stock price behavior in practice.
+
+setup:
+1) we own a call option that expires tomorrow
+2) stock can either rise or fall by a specific amount
+3) interest rates are zero %
+
+key example:
+
+say we have a call on the stock for $100 strike
+p=0.6 that it will rise to 101 tomorrow, and p=0.4 that it will fall to 99 tomorrow.
+what is the option worth today if interest rates are zero? 
+
+Well, if stock is 101 tomorrow, payoff is 1, and it's 0 if the stock falls to 99.
+so, $0.60? nope. 
+
+The answer is $0.50.
+we need to make a portfolio long a call and short 1/2 the stock to see why that is
+     
+       S = 101
+     / payoff = 1 - 0.5 * 101
+   /   p = 0.6
+
+100
+today's payoff= ? - 1/2 * 100
+
+   \   p = 0.4
+     \ payoff = 0 - 0.5 * 99
+       S = 99
+
+in both cases, tomorrow's payoff is -99/2.
+interest rates are zero, so today's payoff must also be -99/2
+
+? - 1/2 * 100 = -99/2, 
+so ? = 1/2
+
+key concept : value of option DOES NOT depend on the probability of the stock rising or falling
+questions:
+	1) why should this 'theoretical price' be 'market price'?
+	2) how did I know to short 0.5 of the stock for hedging?
+	3) how does this change if interest rates are non-zero?
+
+
+delta hedging
+today: ? - x * 100
+tomorrow, it's worth either:	1 - x * 101 or 0 - x * 99 and these must be equal to each other
+so, 1 - 101x = -99x, and 2x = 1. x = 1/2
+in general, x = range of payoff / range of stock prices
+think of delta as the sensitivity of the option to changes in the stock. 
+
+what if interest rates are nonzero? multiply by the discount factor to bring tomorrow's value back to present value.
+ex. if r = 0.1, multiply by 1 / (1 + 0.1 / 252) 
+
+Real world vs. Risk-Neutral world
+
+in the real world:
+	* we know all about risk elimination and delta-hedging.
+	* we are very sensitive to risk, and expect greater return for taking risk.
+	* turns out, only two stock prices matter for the pricing, not the probabilities.
+
+in the risk neutral world (where people don't care about risk):
+	* we don't care about risk and don't expect any extra return for unnecessary risk.
+	* we don't ever need statistics for estimating probabilities of events happening.
+	* we believe that everything is priced using simple expectations.
+
+Risk-neutral expectations based on probability, although fundamentally wrong,
+provide easy ways to get the right answers
+
+p * SH + (1 - p) * SL = ST	SL = stock fall, SH = stock rise, ST = stock today
+p * oh + (1 - p) * ol = o	ol = option payoff fall, oh = option payoff rise, o = option today
+
+
+Now, foundation for the lognormal walk:
+stock can rise to uS or fall to vS
+
+  / uS
+S
+  \ vS
+<-dt->
+
+not so fast, time to wean your waf off the model starting now.
+instead of using u, v, p we will use mean and standard deviation.
+write u, v, and p in terms of drift and volatility
+
+drift μ(mu): average rate at which the asset rises.
+volatility σ(sigma): measure of the randomness.
+
+u = 1 + σ(δt)^.5
+v = 1 - σ(δt)^.5
+
+p = 0.5 + μ(δt^.5) / 2σ
+
+Let's look at the expected return
+expected asset price after a δt time step is:
+
+puS + (1 - p)vS = (1/2 + μ * sqrt(δt) / 2σ)(1 + σ * sqrt(δt)) * S + (1/2 - μ * sqrt(δt) / 2σ)(1 - σ * sqrt(δt)) * S 
+                = (1 + μ * δt) * S	expected return is μ * δt
+
+Let's look at the std deviation
+variance of change in asset price is:
+
+S^2 * (p(u - 1 - μδt)^2 + (1 - p)(v - 1 - μδt)^2)
+= S^2(σ^2δt - (μδt)^2)
+
+standard return of asset changes is approximately σ * sqrt(δt)
+
+
+-------An equation for the value of an option--------
+
+let's say we know the value of the option at time t+δt
+make a portfolio at time t consisting of one option and a short of x in the underlying.
+at time t, the portfolio value is
+
+π = V - xS 
+
+let V take on value V+ or V- at t+δt, 
+so portfolio takes on value V+ - xuS or V- - xvS
+
+we can hedge it by setting tomorrow's values equal to each other. 
+then x = (V+ - V-) / (u-v)S
+the value of tomorrow's portfolio will then be π + δπ
+
+for no-arbitrage, δπ = rπ * δt
+
+putting it all together, we get 
+
+π + δπ = π(1 + rδt) = V+ - u(V+ - V-) / (u - v)
+with π  = v - xS  = V - (V+ - V-) / (u - v)
+
+so, (1+rδt)(V - (V+ - V-)/(u-v)) = V- - v(V+ - V-)/(u-v)
+so, (1+rδt)V = (1+rδt)(V+ - V-)/(u-v) + (uV- - vV+)/(u-v)
+
+if we let p' = 1/2 + r * sqrt(δt) / 2σ,
+then V = (p'V+ - (1-p')V-)/(1+rδt).
+
+p' is just p when μ = r. 
+p' is the risk-neutral probability. 
+p is the real probability 
+
+we can build a binomial tree for the stock price and option prices
+if we use S = 100, δt = 1/12, r = 0.1, and σ = 0.2,
+then u = 1.0604, v = 0.9431, and p' = 0.5567
+Say we have a european call w. 4 mo. till expiry
+      
+stock tree                  126.42
+                          /
+                    119.22
+                   /      \ 
+             112.44         112.44
+           /       \      /
+     106.34         106.34
+   /       \      /       \ 
+100           100           100
+   \       /      \       /
+     94.31           94.31
+           \       /      \
+              88.94         88.94
+                   \      /
+                     83.88
+                          \
+                            79.10
+
+
+option tree                 26.42
+                          /
+                     20.05
+                   /      \ 
+             14.09          12.44
+           /       \      /
+      9.45           6.87
+   /       \       /      \ 
+6.13          3.82          0.00
+   \       /       \      /
+      2.09           0.00
+           \       /      \
+              0.00          0.00
+                   \      /
+                     0.00
+                          \
+                            0.00
+
+
+The Greeks
+
+greeks are derivatives of the option value with respect to various variables and parameters
+important to distinguish between diff w. respect to variable vs. parameter. (or both)
+if it's just w. respect to asset price and/or time, we can estimate it from the tree.
+
+delta:
+from the binomial model, delta is:
+	(V+ - V-) / (u-v)S
+in the limit that time approaches 0, delta becomes δV/δS
+
+gamma:
+δ²V/δS², and it's the sensitivity of the delta to the asset
+
+theta:
+δV/δt, the sensitivity of option price to time, assuming the asset price doesn't change.
+estimate as (.5(V+ - V-) - V)/δt
+
+calculating greeks for the parameters is a bit harder
+requires a 2nd binomial calculation
+
+vega:
+δV/δσ, the sensitivity of the option to volatility
+you would need to find the value of the option twice at volatilites σ +- ε
+then vega would be (V+ - V-)/2ε
+
+teaser for later: "in the continuous-time limit of the greeks and option values, they converge to the black-scholes equation"
+
+black-scholes equation: 
+			
+	δV/δt + 0.5(σ²S² * δ²V/δS²) + (rS * δV/δS) - rV = 0
+
+
+Examples:
+
+1) solve the system of equations for u and v
+
+	p = 1/2				(1)
+	pu + (1-p)v = e^μδt		(2)
+	pu² + (1-p)v² = e^(2μ+σ²)δt	(3)
+
+substitute v in equation (2) into equation (3).
+
+u+v = 2e^μδt
+v = 2e^μδt - u
+
+subbing into (3)
+u² + u² - 4ue^μδt + 4e^2μδt = 2e^(2μ+σ²)δt
+u² - 2ue^μδt + e^2μδt = e^(2μ+σ²)δt - 1
+u - e^μδt = e^μδt * √(e^σ²δt - 1)
+
+finally:
+p = 1/2
+u = e^μδt * (1 + √(e^σ²δt - 1))
+v = e^μδt * (1 - √(e^σ²δt - 1))
+
+
+2) u = 1 + σ√δt
+   v = 1 - σ√δt
+
+Taylor series:
+
+V+ = V + σS√δt*dV/dS + 0.5σ²S²δt*d²V/dS² + δt*dV/dt
+V- = V - σS√δt*dV/dS + 0.5σ²S²δt*d²V/dS² + δt*dV/dt
+
+substitute into V = (V+ - V-)/(u-v) + (uV- - vV+)/((u-v)(1+rδt)) 
+
+it ends up simplfying to the Black-Scholes equation: 
+
+δV/δt + 0.5(σ²S² * δ²V/δS²) + (rS * δV/δS) - rV = 0
+
+
+3) calculate delta (x)
+
+   84 payoff = 5
+80<
+   76 payoff = 0
+
+x = (5-0)/(84-76) = 5/8
+
+o is the value of the option today
+
+o-80x = -76x     o = 4x = 5/2 = $2.50
+
+by the risk-neutral probability method:
+
+p*84 + (1-p)*76 = 8p + 76 = 80, so p = 1/2 
+
+o = 0.5(5 + 0) = $2.50
+
+
+4) again, use a binomial tree
+
+r = 2% and E = 90
+
+   98
+92<
+   86
+
+x = (8 - 0)/(98 - 86) = 8/12 = 2/3
+
+o - 92x = -86x / e^.02   o = (92-86*e^-.02)x = $5.14
+
+by risk-neutral method:
+p*98 + (1-p)*86 = 12p + 86 = 92e^.02
+p = (92e^.02 - 86)/12 = 0.65488
+
+o = p(8-0)e^-.02 = $5.24*e^-.02 = $5.14
+
+
+5)
 
