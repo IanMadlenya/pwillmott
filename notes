@@ -520,3 +520,59 @@ You can google pwilmott answers, and there is a wiley link with worked examples.
 I wish you well on your journey.
 
 
+/*********************************************************************************************/
+/************************************** Chapter 4 ********************************************/
+The Random Behavior of Assets
+
+data analysis and modeling fundamentals. 
+Also, Wiener process and intro to Stochastic Calculus
+
+three forms of financial analysis:
+* fundamental
+* technical
+* quantitative
+
+fundamental: try to determine what the company is actually worth.
+study the balance sheets, management teams, patent applications, competitors, lawsuits, etc.
+can be hard bc it requires accounting, and patience
+also, no gaurantee you will make money. (markets can stay irrational longer than you can stay solvent).
+
+technical: opposite of fundamental analysis. looking only at the stock price history, drawing trendlines
+and specific patterns, then making predictions. this is usually a load of bologna.
+
+quantitative: our focus for portfolio theory, derivatives pricing, and risk management.
+treat the financial quantities (stock prices & interest rates) as random. choose best model for the randomness
+
+Why is randomness even important??
+Let's examine Jensen's inequality to find out.
+Order in which we do the payoff calculation matters
+
+Say you have a stock at 100. in one year, equal chance of going to 50 or 150.
+for a call option at 100,
+
+E[S] = 100 P(E[S]) = 0
+E[P(S)] = (50 + 0) / 2 = 25
+
+Payoff(Expected[price]) = 0
+Expected[Payoff(price)] = 25
+
+Jensen's Inequality:
+E[P(S)] >= P(E[S])  if P(S) is convex. (it is for options)
+
+If we write S = Savg + ε and do a taylor expansion
+
+E[P(S)] = E[P(Savg + ε)] = E[P(Savg) + εP'(Savg) + ε²/2 P''(Savg)]
+which is approx. P(E[S] + 1/2P''(E[S])E[ε²]
+so left side is approximately greater by 1/2 P''(E[S])E[ε²]
+where P''(E[S]) is the convexity of the option. E[ε²] is a measure of it's randomness and variance.
+
+Unpredictability of the asset value plays a large part in financial markets.
+Let's examine some returns
+
+Ravg = (ΣRi)/m from i = 1 to M
+stdev = sqrt((Σ(Ri - Ravg)²)/(M-1)) from i = 1 to M
+
+On short timescales, you tend to see a lot of noise in the price, and will have to wait months perhaps to spot the trend.
+ 
+ Ri = (Si+1 - Si)/Si = mean + stddev * φ
+

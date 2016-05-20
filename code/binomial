@@ -2,5 +2,7 @@
 gcc -o bn binomial.c -lm
 bn
 rm bn
+sleep 5
+vi binomial.c
 
 
